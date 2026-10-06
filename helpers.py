@@ -83,3 +83,33 @@ class GHFilterDeltaT:
         except ZeroDivisionError:
             print("ZDE")
             return [self.x, self.dx]
+
+
+class GHKFilterDeltaT:
+    """Second-order g-h-k filter for position, velocity, and acceleration."""
+
+    def __init__(self, x0: float, dx0: float, ddx0: float,
+                 g: float, h: float, k: float):
+        self.x = np.array([x0])
+        self.dx = np.array([dx0])
+        self.ddx = np.array([ddx0])
+        self.g_gain = g
+        self.h_gain = h
+        self.k_gain = k
+
+    def update(self, dt: float, z: float):
+        """Update the filter and return position, velocity, and acceleration."""
+        if dt == 0:
+            return [self.x, self.dx, self.ddx]
+
+        # Predict with a constant-acceleration model.
+        estimate_x = self.x + dt * self.dx + 0.5 * dt**2 * self.ddx
+        estimate_dx = self.dx + dt * self.ddx
+        residual = z - estimate_x
+
+        # Correct each state with the appropriate time scaling.
+        self.x = estimate_x + self.g_gain * residual
+        self.dx = estimate_dx + (self.h_gain * residual) / dt
+        self.ddx = self.ddx + (2 * self.k_gain * residual) / dt**2
+
+        return [self.x, self.dx, self.ddx]

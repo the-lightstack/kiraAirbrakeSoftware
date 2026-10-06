@@ -1,0 +1,9 @@
+name: simVenv
+channels:
+  - defaults
+dependencies:
+  - scipy
+  - sympy
+  - numpy
+  - jupyter
+prefix: /home/lars/miniconda3/envs/simVenv
