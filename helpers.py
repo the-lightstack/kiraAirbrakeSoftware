@@ -15,8 +15,17 @@ def tempFromHeight(height: float) -> float:
 
 
 """
+ @brief Air Pressure from height.
+ @param height Height AGL
+ @return Air pressure in pascal.
+"""
+def airPressureFromHeight(height:float) -> float:
+    return constants.SURFACE_AIR_PRESSURE * math.exp(-(1/8400) * height)
+
+
+"""
  @brief Air density from height
- @param height Height above sea level.
+ @param height Height above ground level.
  @return Air density in kg/m³ 
 """
 def airDensityFromHeight(height:float) -> float:
