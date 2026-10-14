@@ -86,3 +86,10 @@ $$
 
 We could also represent the measuremtent Matrix (section above) as a linear combination between the 2 IMU's to fuse them directly, but as we might not get the data
 concurrently from both, we can also keep them separate.
+
+
+### Simulation of physical servo extension
+The servo used is the MG995R ([datasheet](https://www.alldatasheet.com/datasheet-pdf/view/1131873/ETC2/MG996R.html)) which lists a rotational speed of $0.17 \frac{s}{60°}$ when powered with 4.8V. 
+As a proxy we will assume that 0° is 0% extension and 120° (max of the servo) corresponds to 100% extension. It needs 0.34s for the full extension, which involves extending each flap by $17.425mm$, so the linear velocity is $0.05125\frac{m}{s}$
+
+
