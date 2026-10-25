@@ -1,0 +1,7 @@
+## Pre Takeoff Calibration
+Considering that our primary IMU alone has a possible constant bias in the range ± 20mg, if we don't consider this through calibration, a direct implication on the measuremnts could result in a wrong altitude assumption of up to 20m ($0.5 * (20*9.81/1000) * 15^2$).
+
+Current train of thought:
+first let the heading of the Kalman filter converge using the magnetometer. Rocket will probably not be entirely stable on the launch rail (due to winds), but averaging over several minutes should filter this effect out and get rid of the gyroscope bias of ±0.5dps (on primary & secondary). We should probably cap the found offset to the ±0.5 dps or produce an error on excessively large bias-offset values. Having this small error is better that messing up while finding the bias and flying with an even bigger offset due to our error. 
+When the heading has converged to within the sensors variance (maybe resulting in 85° from vertical), we can transform the coordinate system of the rocket to make sure the only acceleration the IMU's feel is the ones due to gravity. Since we want to get within less than 1mg in the best case, we can also not just use 9.81 m/s² but have to find out a more precise gravitational "constant" at our launch location. 
+Since we also know the ASL height of the launch site (!! include the rail mounting and height of the sensor above ground!!) we can reduce the absolute accuracy of the barometer (datasheet: ±8m) a lot. 
