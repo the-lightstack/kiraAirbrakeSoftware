@@ -5,3 +5,14 @@ Current train of thought:
 first let the heading of the Kalman filter converge using the magnetometer. Rocket will probably not be entirely stable on the launch rail (due to winds), but averaging over several minutes should filter this effect out and get rid of the gyroscope bias of ±0.5dps (on primary & secondary). We should probably cap the found offset to the ±0.5 dps or produce an error on excessively large bias-offset values. Having this small error is better that messing up while finding the bias and flying with an even bigger offset due to our error. 
 When the heading has converged to within the sensors variance (maybe resulting in 85° from vertical), we can transform the coordinate system of the rocket to make sure the only acceleration the IMU's feel is the ones due to gravity. Since we want to get within less than 1mg in the best case, we can also not just use 9.81 m/s² but have to find out a more precise gravitational "constant" at our launch location. 
 Since we also know the ASL height of the launch site (!! include the rail mounting and height of the sensor above ground!!) we can reduce the absolute accuracy of the barometer (datasheet: ±8m) a lot. 
+
+## Barometer considerations
+The datasheet lists quite long measurement times (5.2ms up to 105ms). At peak velocity the pressure will change in this time frame (@130m/s, 27.6ms results in 3.6m altitude change). We might consider this, as the measurement is dated by the time we integrate it into the KF.
+
+## Value clipping
+If the sensor reads its maximum value (eg. 16g), we don't know it the rocket actually experienced this acceleration or even more which got clipped at 16g.
+Procedures for this case could be:
+ - check against secondary IMU
+ - drop the value (treat it like an outlier)
+ - change the measurement noise matrix accordingly and integrate the value into the filter with high uncertainty
+
