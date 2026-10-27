@@ -21,8 +21,12 @@ x = \begin{bmatrix} \text{Temperature} \\ \text{Pressure} \end{bmatrix}
 $$
 
 ### Attitude Filter
-This one might be the most complex one. The state is a combination of measurements of both the two IMUs gyrosciopes (more frequent) and the magnetometer (less frequent). The gyros give us the first derivative of the heading. Mainly to avoid the most obvious problems with euler angles the attitude will be comprised of quaternions representing the 
+This one might be the most complex one. The state is a combination of measurements of both the two IMUs gyrosciopes (more frequent) and the magnetometer (less frequent). The gyros give us the first derivative of the heading. Mainly to avoid the most obvious problems with euler angles the attitude will be comprised of quaternions representing the orientation in space. The magnetometer will provide a concrete heading. The attitude shall be relative to the LTP reference frame, which I'll have to calculate by converting from ECEF for the launch site (using the matrix provided in the wikipedia article).
 
+
+
+## Embedded System Optimization
+Before the actual flight we should let all of the variances and covariances in the process noise matrices converge and then store/serialize them. This way during flight, the filters estimate are more accurate starting from an earlier point in time  since we decrease the settling time.
 
 ### Ressources
 - [Quaternion Kalman Filters](https://www.commsp.ee.ic.ac.uk/~mandic/research/CJ_CPM_Quaternion_WL_Kalman_IEEE_TNNLS_2014.pdf)
