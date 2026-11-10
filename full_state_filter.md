@@ -26,7 +26,7 @@ This one might be the most complex one. The state is a combination of measuremen
 
 
 ## Embedded System Optimization
-Before the actual flight we should let all of the variances and covariances in the process noise matrices converge and then store/serialize them. This way during flight, the filters estimate are more accurate starting from an earlier point in time  since we decrease the settling time.
+Before the actual flight we should let all of the variances and covariances in the process noise matrices converge and then store/serialize them. This way during flight, the filters estimate are more accurate starting from an earlier point in time  since we decrease the settling time.j
 
 ### Ressources
 - [Quaternion Kalman Filters](https://www.commsp.ee.ic.ac.uk/~mandic/research/CJ_CPM_Quaternion_WL_Kalman_IEEE_TNNLS_2014.pdf)
